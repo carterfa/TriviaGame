@@ -20,10 +20,22 @@ let quizArray = [
             d: "A potato."
         },
         correct: "b"
+    },
+
+    {
+        title: "I have apples.",
+        options: {
+            a: "Cool.",
+            b: "Nice.",
+            c: "Bad.",
+            d: "Awful."
+        },
+        correct: "a"
     }
 
 ]
 
+//variables
 let i = 0;
 let currentQ = quizArray[i];
 let correctNum = 0;
@@ -36,6 +48,7 @@ function displayQuestion(objQuiz) {
 
     //reset the clock
     timer = 20;
+    $("#countdown").text(timer);
 
     //start the clock
     intervalId = setInterval(function () {
@@ -66,57 +79,86 @@ function displayQuestion(objQuiz) {
 
 //displays correct answer dialog
 function correctDisplay() {
+
+    //stops the clock
     clearInterval(intervalId);
 
-    $("#questionTitle").text("Correct");
-    i++;
-    correctNum++;
-    currentQ = quizArray[i];
+    //display message
+    $("#questionTitle").text("Correct!");
 
+    //adds to correct count
+    correctNum++;
+
+    //only go to next question if there is one, or go to final screen
+    i++;
     if (i == quizArray.length) {
         setTimeout(function () { displayOver(); }, 3000);
-    } else { setTimeout(function () { displayQuestion(currentQ); }, 3000); }
+    } else {
+        currentQ = quizArray[i];
+        setTimeout(function () { displayQuestion(currentQ); }, 3000);
+    }
 }
 
 //displays wrong answer dialog
 function wrongDisplay() {
+
+    //stops the clock
     clearInterval(intervalId);
-    //grabs correct answer
+
+    //grabs and displays correct answer
     let correctA = $("#" + currentQ.correct).text();
     $("#questionTitle").text("The correct answer was: " + correctA);
-    i++;
-    wrongNum++;
-    currentQ = quizArray[i];
 
+    $("#"+currentQ.correct).css("background-color", "green");
+
+    //adds to wrong count
+    wrongNum++;
+
+    //only go to next question if there is one, or go to final screen
+    i++;
     if (i == quizArray.length) {
         setTimeout(function () { displayOver(); }, 3000);
-    } else { setTimeout(function () { displayQuestion(currentQ); }, 3000); }
+    } else {
+        setTimeout(function () {
+            currentQ = quizArray[i];
+            displayQuestion(currentQ);
+        }, 3000);
+    }
 }
 
 //displays final screen
 function displayOver() {
+
+    //clear out options
     $("#optionsBox").empty();
 
+    //display message
     $("#questionTitle").text("All Done!");
 
+    //display number wrong and correct
     $("#messageBox").append("<h2>Correct Answers: " + correctNum + "</h2>");
     $("#messageBox").append("<h2>Wrong Answers: " + wrongNum + "</h2>");
 
+    //clears timer
     $("#countdown").text("");
 
 }
 
 $(document).ready(function () {
 
+    //begins quiz
     displayQuestion(quizArray[i]);
 
+    //code for choosing answer
     $("#optionsBox").on("click", ".choice", function () {
 
         //compares option id to correct answer
         if ($(this).attr("id") === currentQ.correct) {
             correctDisplay();
+            $(this).css("background-color", "green");
         } else {
             wrongDisplay();
+            $(this).css("background-color", "red");
         }
 
     })
