@@ -12,23 +12,46 @@ let quizArray = [
 
 ]
 
+//displays question with options
+function displayQuestion(objQuiz) {
+
+    $("#questionTitle").text(objQuiz.title);
+
+    $("#optionsBox").empty();
+
+    $("#optionsBox").append("<h2 class='choice' id='a'>"+objQuiz.options.a+"</h2>");
+    $("#optionsBox").append("<h2 class='choice' id='b'>"+objQuiz.options.b+"</h2>");
+    $("#optionsBox").append("<h2 class='choice' id='c'>"+objQuiz.options.c+"</h2");
+    $("#optionsBox").append("<h2 class='choice' id='d'>"+objQuiz.options.d+"</h2>");
+
+}
+
 
 $(document).ready(function () {
 
-    function displayQuestion(objQuiz) {
-
-        $("#questionTitle").text(objQuiz.title);
-
-        $("#optionsBox").empty();
-
-        $("#optionsBox").append("<div><input type='radio' name='option' value='1'>"+objQuiz.options.a+"</input></div>");
-        $("#optionsBox").append("<div><input type='radio' name='option' value='2'>"+objQuiz.options.b+"</input></div>");
-        $("#optionsBox").append("<div><input type='radio' name='option' value='3'>"+objQuiz.options.c+"</input></div>");
-        $("#optionsBox").append("<div><input type='radio' name='option' value='4'>"+objQuiz.options.d+"</input></div>");
     
-    }
+    let currentQ = quizArray[0];
 
-    displayQuestion(quizArray[0]);
+    displayQuestion(currentQ);
+
+    $("#optionsBox").on("click", ".choice", function (){
+          
+        if ($(this).attr("id") === currentQ.correct){
+
+            console.log("correct");
+        }else {
+            console.log("wrong");
+        }
+        
+        
+
+
+
+    })
+
+    
+
+    
 
 
 
