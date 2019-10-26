@@ -42,13 +42,15 @@ let correctNum = 0;
 let wrongNum = 0;
 let timer = 20;
 let intervalId;
+let clockRunning = true;
 
 //displays question with options
-function displayQuestion(objQuiz) {
+function displayQuestion(currentQ) {
 
     //reset the clock
     timer = 20;
     $("#countdown").text(timer);
+    clockRunning = true;
 
     //start the clock
     intervalId = setInterval(function () {
@@ -64,16 +66,16 @@ function displayQuestion(objQuiz) {
 
     //clears and adds question title
     $("#questionTitle").text("");
-    $("#questionTitle").text(objQuiz.title);
+    $("#questionTitle").text(currentQ.title);
 
     //clears options
     $("#optionsBox").empty();
 
     //adds question options
-    $("#optionsBox").append("<h2 class='choice' id='a'>" + objQuiz.options.a + "</h2>");
-    $("#optionsBox").append("<h2 class='choice' id='b'>" + objQuiz.options.b + "</h2>");
-    $("#optionsBox").append("<h2 class='choice' id='c'>" + objQuiz.options.c + "</h2");
-    $("#optionsBox").append("<h2 class='choice' id='d'>" + objQuiz.options.d + "</h2>");
+    $("#optionsBox").append("<h2 class='choice' id='a'>" + currentQ.options.a + "</h2>");
+    $("#optionsBox").append("<h2 class='choice' id='b'>" + currentQ.options.b + "</h2>");
+    $("#optionsBox").append("<h2 class='choice' id='c'>" + currentQ.options.c + "</h2");
+    $("#optionsBox").append("<h2 class='choice' id='d'>" + currentQ.options.d + "</h2>");
 
 }
 
@@ -82,6 +84,7 @@ function correctDisplay() {
 
     //stops the clock
     clearInterval(intervalId);
+    clockRunning = false;
 
     //display message
     $("#questionTitle").text("Correct!");
@@ -104,12 +107,13 @@ function wrongDisplay() {
 
     //stops the clock
     clearInterval(intervalId);
+    clockRunning = false;
 
     //grabs and displays correct answer
     let correctA = $("#" + currentQ.correct).text();
     $("#questionTitle").text("The correct answer was: " + correctA);
 
-    $("#"+currentQ.correct).css("background-color", "green");
+    $("#" + currentQ.correct).css("background-color", "green");
 
     //adds to wrong count
     wrongNum++;
@@ -128,6 +132,10 @@ function wrongDisplay() {
 
 //displays final screen
 function displayOver() {
+
+    //stops the clock
+    clearInterval(intervalId);
+    clockRunning = false;
 
     //clear out options
     $("#optionsBox").empty();
@@ -152,15 +160,16 @@ $(document).ready(function () {
     //code for choosing answer
     $("#optionsBox").on("click", ".choice", function () {
 
-        //compares option id to correct answer
-        if ($(this).attr("id") === currentQ.correct) {
-            correctDisplay();
-            $(this).css("background-color", "green");
-        } else {
-            wrongDisplay();
-            $(this).css("background-color", "red");
+        if (clockRunning === true) {
+            //compares option id to correct answer
+            if ($(this).attr("id") === currentQ.correct) {
+                correctDisplay();
+                $(this).css("background-color", "green");
+            } else {
+                wrongDisplay();
+                $(this).css("background-color", "red");
+            }
         }
-
     })
 
 });
