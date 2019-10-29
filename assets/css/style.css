@@ -1,3 +1,51 @@
+h1, h2, h3, h4, h5, h6{
+    font-family:"Lucida Console", Monaco, monospace;
+}
+
+body{
+background-image: url("../images/backgroundTile.jpg");
+}
+
+/* Highlights user selection */
 .choice:hover{
-    background-color: rgb(161, 213, 255);
+    background-color: #572304;
+}
+
+#quizBox{
+    padding: 1em;
+    background-color: #cc4e0c;
+    color: #ffc8c3;
+    margin-right: auto;
+    margin-left: auto;
+    width: 80vw;
+    border-bottom: solid 2px #572304;
+    border-right: solid 2px #572304;
+    border-top: solid 2px whitesmoke;
+    border-left: solid 2px whitesmoke;
+}
+
+header{
+    text-align: center;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+#countdown{
+    text-align: center;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+#optionsBox{
+    margin: 1em;
+}
+
+@media only screen and (max-width: 600px) {
+    #quizBox{
+        width: 90vw;
+    }
+
+    .choice{
+        border: solid 2px #572304;
+    }
 }

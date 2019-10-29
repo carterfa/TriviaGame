@@ -1,37 +1,71 @@
 //array of quiz questions
 let quizArray = [
     {
-        title: "What is a banana?",
+        title: "In what year was Nintendo founded?",
         options: {
-            a: "A mineral.",
-            b: "An animal.",
-            c: "A car.",
-            d: "A fruit."
+            a: "1956",
+            b: "1980",
+            c: "1972",
+            d: "1889"
         },
         correct: "d"
     },
 
     {
-        title: "What is a man?",
+        title: "The US version of Super Mario Bros. 2 is an altered version of this Japanese game:",
         options: {
-            a: "An airplane.",
-            b: "A friend.",
-            c: "Tasty.",
-            d: "A potato."
+            a: "Doki Doki Panic",
+            b: "Mother 3",
+            c: "Seiken Densetsu",
+            d: "Doki Doki Literature Club!"
+        },
+        correct: "a"
+    },
+
+    {
+        title: "Who is credited for the creation of Super Mario Bros., The Legend of Zelda, and Donkey Kong?",
+        options: {
+            a: "Satoru Iwata",
+            b: "Garrett Bobby Ferguson",
+            c: "Shigeru Miyamoto",
+            d: "Hideki Kamiya"
+        },
+        correct: "c"
+    },
+
+    {
+        title: "Satoru Iwata, a former president of Nintendo, helped to compress the code of this popular Gameboy game:",
+        options: {
+            a: "Drill Dozer",
+            b: "Kirby's Adventure",
+            c: "Pokemon Gold & Silver Version",
+            d: "Pokemon Ruby & Sapphire Version"
+        },
+        correct: "c"
+    },
+
+    {
+        title: "This video game console was originally supposed to be a CD-ROM add-on for the Super Famicom.",
+        options: {
+            a: "Xbox",
+            b: "PlayStation",
+            c: "Dreamcast",
+            d: "Game Gear"
         },
         correct: "b"
     },
 
     {
-        title: "I have apples.",
+        title: "What game accidentally infected its players with a virtual pandemic in 2005?",
         options: {
-            a: "Cool.",
-            b: "Nice.",
-            c: "Bad.",
-            d: "Awful."
+            a: "Guild Wars 2",
+            b: "Runescape",
+            c: "Final Fantasy XIV",
+            d: "World of Warcraft"
         },
-        correct: "a"
-    }
+        correct: "d"
+    },
+
 
 ]
 
@@ -54,8 +88,8 @@ function displayQuestion(currentQ) {
 
     //start the clock
     intervalId = setInterval(function () {
-        $("#countdown").text(timer);
         timer--;
+        $("#countdown").text(timer);
 
         if (timer == 0) {
             $("#countdown").text("TIMES UP!");
@@ -72,10 +106,10 @@ function displayQuestion(currentQ) {
     $("#optionsBox").empty();
 
     //adds question options
-    $("#optionsBox").append("<h2 class='choice' id='a'>" + currentQ.options.a + "</h2>");
-    $("#optionsBox").append("<h2 class='choice' id='b'>" + currentQ.options.b + "</h2>");
-    $("#optionsBox").append("<h2 class='choice' id='c'>" + currentQ.options.c + "</h2");
-    $("#optionsBox").append("<h2 class='choice' id='d'>" + currentQ.options.d + "</h2>");
+    $("#optionsBox").append("<h4 class='choice' id='a'>" + currentQ.options.a + "</h4>");
+    $("#optionsBox").append("<h4 class='choice' id='b'>" + currentQ.options.b + "</h4>");
+    $("#optionsBox").append("<h4 class='choice' id='c'>" + currentQ.options.c + "</h4");
+    $("#optionsBox").append("<h4 class='choice' id='d'>" + currentQ.options.d + "</h4>");
 
 }
 
@@ -112,7 +146,7 @@ function wrongDisplay() {
     //grabs and displays correct answer
     let correctA = $("#" + currentQ.correct).text();
     $("#questionTitle").text("The correct answer was: " + correctA);
-
+    //highlights correct answer
     $("#" + currentQ.correct).css("background-color", "green");
 
     //adds to wrong count
@@ -144,8 +178,8 @@ function displayOver() {
     $("#questionTitle").text("All Done!");
 
     //display number wrong and correct
-    $("#messageBox").append("<h2>Correct Answers: " + correctNum + "</h2>");
-    $("#messageBox").append("<h2>Wrong Answers: " + wrongNum + "</h2>");
+    $("#messageBox").append("<h4>Correct Answers: " + correctNum + "</h4>");
+    $("#messageBox").append("<h4>Wrong Answers: " + wrongNum + "</h4>");
 
     //clears timer
     $("#countdown").text("");
