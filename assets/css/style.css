@@ -74,9 +74,19 @@ header {
 
 @media only screen and (max-width: 600px) {
     #quizBox {
+        margin: .1em auto .1em auto;
         width: 90vw;
     }
     .choice {
         border: solid 2px #572304;
+    }
+
+    h1 {
+        margin: .1em;
+    }
+    
+    header h1 {
+        font-size: 1.75em;
+        text-align: center;
     }
 }

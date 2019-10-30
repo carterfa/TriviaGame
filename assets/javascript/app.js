@@ -66,6 +66,50 @@ let quizArray = [
         correct: "d"
     },
 
+    {
+        title: "Sonic the Hedgehog 3 reportedly features music composed by this popular musician:",
+        options: {
+            a: "Michael Jackson",
+            b: "Madonna",
+            c: "Paul McCartney",
+            d: "Billy Joel"
+        },
+        correct: "a"
+    },
+
+    {
+        title: "What is the first video game console to feature a CD-ROM?",
+        options: {
+            a: "PlayStation",
+            b: "Atari Jaguar",
+            c: "3DO",
+            d: "Philips Cd-i"
+        },
+        correct: "c"
+    },
+
+    {
+        title: "What was the first commercially successful video game?",
+        options: {
+            a: "Space Invaders",
+            b: "Asteroids",
+            c: "Pac-Man",
+            d: "Pong"
+        },
+        correct: "d"
+    },
+
+    {
+        title: "What country did Tetris originate from?",
+        options: {
+            a: "Czech Republic",
+            b: "Russia",
+            c: "United States",
+            d: "Japan"
+        },
+        correct: "b"
+    }
+
 
 ]
 
@@ -79,7 +123,7 @@ let intervalId;
 let clockRunning = true;
 let indexArray = [];
 
-//generates random shuffle of 5 quiz questions
+//generates random shuffle of quiz questions
 function generateQuiz() {
 
     //resets correct and wrong count
@@ -89,10 +133,10 @@ function generateQuiz() {
     //empties array for new set of questions
     indexArray = [];
 
-    
+
     while (indexArray.length < 5) {
 
-        n = Math.floor(Math.random() * 6);
+        n = Math.floor(Math.random() * quizArray.length);
 
         if (indexArray.includes(n) === false) {
             indexArray.push(n);
