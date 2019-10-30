@@ -25,7 +25,7 @@ let quizArray = [
     {
         title: "Who is credited for the creation of Super Mario Bros., The Legend of Zelda, and Donkey Kong?",
         options: {
-            a: "Satoru Iwata",
+            a: "Eiji Aonuma",
             b: "Garrett Bobby Ferguson",
             c: "Shigeru Miyamoto",
             d: "Hideki Kamiya"
@@ -147,7 +147,7 @@ function wrongDisplay() {
     let correctA = $("#" + currentQ.correct).text();
     $("#questionTitle").text("The correct answer was: " + correctA);
     //highlights correct answer
-    $("#" + currentQ.correct).css("background-color", "green");
+    $("#" + currentQ.correct).css("background-color", "#04aa04");
 
     //adds to wrong count
     wrongNum++;
@@ -178,30 +178,39 @@ function displayOver() {
     $("#questionTitle").text("All Done!");
 
     //display number wrong and correct
-    $("#messageBox").append("<h4>Correct Answers: " + correctNum + "</h4>");
-    $("#messageBox").append("<h4>Wrong Answers: " + wrongNum + "</h4>");
+    $("#messageBox").append("<h4>Correct: " + correctNum + "</h4>");
+    $("#messageBox").append("<h4>Wrong: " + wrongNum + "</h4>");
 
     //clears timer
     $("#countdown").text("");
 
+    //shows start button
+    $("#startBtn").show()
+
 }
 
+//waits for page to load
 $(document).ready(function () {
 
-    //begins quiz
-    displayQuestion(quizArray[i]);
+    //begins quiz on button click
+    $("#startBtn").on("click", function () {
+        displayQuestion(quizArray[i]);
+        $("#startBtn").hide();
+        console.log("click");
+    })
+
 
     //code for choosing answer
     $("#optionsBox").on("click", ".choice", function () {
-
+        //only runs comparison if question not answered yet
         if (clockRunning === true) {
             //compares option id to correct answer
             if ($(this).attr("id") === currentQ.correct) {
                 correctDisplay();
-                $(this).css("background-color", "green");
+                $(this).css("background-color", "#04aa04");
             } else {
                 wrongDisplay();
-                $(this).css("background-color", "red");
+                $(this).css("background-color", "#fb993b");
             }
         }
     })
