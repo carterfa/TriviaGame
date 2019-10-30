@@ -71,12 +71,39 @@ let quizArray = [
 
 //variables
 let i = 0;
-let currentQ = quizArray[i];
+let currentQ = "";
 let correctNum = 0;
 let wrongNum = 0;
 let timer = 20;
 let intervalId;
 let clockRunning = true;
+let indexArray = [];
+
+//generates random shuffle of 5 quiz questions
+function generateQuiz() {
+
+    //resets correct and wrong count
+    correctNum = 0;
+    wrongNum = 0;
+
+    //empties array for new set of questions
+    indexArray = [];
+
+    
+    while (indexArray.length < 5) {
+
+        n = Math.floor(Math.random() * 6);
+
+        if (indexArray.includes(n) === false) {
+            indexArray.push(n);
+        }
+    }
+    console.log(indexArray);
+    //establishes the current question
+    currentQ = quizArray[indexArray[i]];
+    displayQuestion(currentQ);
+
+}
 
 //displays question with options
 function displayQuestion(currentQ) {
@@ -128,10 +155,10 @@ function correctDisplay() {
 
     //only go to next question if there is one, or go to final screen
     i++;
-    if (i == quizArray.length) {
+    if (i == indexArray.length) {
         setTimeout(function () { displayOver(); }, 3000);
     } else {
-        currentQ = quizArray[i];
+        currentQ = quizArray[indexArray[i]];
         setTimeout(function () { displayQuestion(currentQ); }, 3000);
     }
 }
@@ -154,11 +181,11 @@ function wrongDisplay() {
 
     //only go to next question if there is one, or go to final screen
     i++;
-    if (i == quizArray.length) {
+    if (i == indexArray.length) {
         setTimeout(function () { displayOver(); }, 3000);
     } else {
         setTimeout(function () {
-            currentQ = quizArray[i];
+            currentQ = quizArray[indexArray[i]];
             displayQuestion(currentQ);
         }, 3000);
     }
@@ -187,6 +214,9 @@ function displayOver() {
     //shows start button
     $("#startBtn").show()
 
+    //resets i
+    i = 0;
+
 }
 
 //waits for page to load
@@ -194,9 +224,9 @@ $(document).ready(function () {
 
     //begins quiz on button click
     $("#startBtn").on("click", function () {
-        displayQuestion(quizArray[i]);
+        generateQuiz();
+        $("#messageBox").empty();
         $("#startBtn").hide();
-        console.log("click");
     })
 
 
