@@ -1,151 +1,99 @@
-//array of quiz questions
-let quizArray = [
-    {
-        title: "In what year was Nintendo founded?",
-        options: {
-            a: "1956",
-            b: "1980",
-            c: "1972",
-            d: "1889"
-        },
-        correct: "d"
-    },
-
-    {
-        title: "The US version of Super Mario Bros. 2 is an altered version of this Japanese game:",
-        options: {
-            a: "Doki Doki Panic",
-            b: "Mother 3",
-            c: "Seiken Densetsu",
-            d: "Doki Doki Literature Club!"
-        },
-        correct: "a"
-    },
-
-    {
-        title: "Who is credited for the creation of Super Mario Bros., The Legend of Zelda, and Donkey Kong?",
-        options: {
-            a: "Eiji Aonuma",
-            b: "Garrett Bobby Ferguson",
-            c: "Shigeru Miyamoto",
-            d: "Hideki Kamiya"
-        },
-        correct: "c"
-    },
-
-    {
-        title: "Satoru Iwata, a former president of Nintendo, helped to compress the code of this popular Gameboy game:",
-        options: {
-            a: "Drill Dozer",
-            b: "Kirby's Adventure",
-            c: "Pokemon Gold & Silver Version",
-            d: "Pokemon Ruby & Sapphire Version"
-        },
-        correct: "c"
-    },
-
-    {
-        title: "This video game console was originally supposed to be a CD-ROM add-on for the Super Famicom.",
-        options: {
-            a: "Xbox",
-            b: "PlayStation",
-            c: "Dreamcast",
-            d: "Game Gear"
-        },
-        correct: "b"
-    },
-
-    {
-        title: "What game accidentally infected its players with a virtual pandemic in 2005?",
-        options: {
-            a: "Guild Wars 2",
-            b: "Runescape",
-            c: "Final Fantasy XIV",
-            d: "World of Warcraft"
-        },
-        correct: "d"
-    },
-
-    {
-        title: "Sonic the Hedgehog 3 reportedly features music composed by this popular musician:",
-        options: {
-            a: "Michael Jackson",
-            b: "Madonna",
-            c: "Paul McCartney",
-            d: "Billy Joel"
-        },
-        correct: "a"
-    },
-
-    {
-        title: "What is the first video game console to feature a CD-ROM?",
-        options: {
-            a: "PlayStation",
-            b: "Atari Jaguar",
-            c: "3DO",
-            d: "Philips Cd-i"
-        },
-        correct: "c"
-    },
-
-    {
-        title: "What was the first commercially successful video game?",
-        options: {
-            a: "Space Invaders",
-            b: "Asteroids",
-            c: "Pac-Man",
-            d: "Pong"
-        },
-        correct: "d"
-    },
-
-    {
-        title: "What country did Tetris originate from?",
-        options: {
-            a: "Czech Republic",
-            b: "Russia",
-            c: "United States",
-            d: "Japan"
-        },
-        correct: "b"
-    }
-
-
-]
-
 //variables
-let i = 0;
+let quizArray = [];
+let quizIdx = 0;
+let quizNum = 10;
 let currentQ = "";
 let correctNum = 0;
 let wrongNum = 0;
 let timer = 20;
 let intervalId;
 let clockRunning = true;
-let indexArray = [];
+let token = "";
+let quizDif = "easy";
+let correctId = "";
 
-//generates random shuffle of quiz questions
-function generateQuiz() {
+function Question(title, correct, options) {
+    this.title = title;
+    this.correct = correct;
+    this.options = options;
+    options.push(correct);
 
-    //resets correct and wrong count
-    correctNum = 0;
-    wrongNum = 0;
+}
 
-    //empties array for new set of questions
-    indexArray = [];
+function getToken() {
 
+    $.ajax({
+        url: "https://opentdb.com/api_token.php?command=request",
+        Method: "GET"
+    }).then(function (response) {
+        token = response.token;
+        console.log(token);
+    })
+}
 
-    while (indexArray.length < 5) {
+function resetToken(token) {
 
-        n = Math.floor(Math.random() * quizArray.length);
+    $.ajax({
+        url: "https://opentdb.com/api_token.php?command=reset&token=" + token,
+        Method: "GET"
+    }).then(function (response) {
+        getTrivia();
+    })
+}
 
-        if (indexArray.includes(n) === false) {
-            indexArray.push(n);
+function getTrivia() {
+    //object containing parameters 
+    const QueryParams = {
+        "amount": quizNum,
+        "category": 15,
+        "difficulty": quizDif,
+        "token": token
+    };
+
+    //set parameters from object
+    let paramString = $.param(QueryParams);
+    let queryURL = "https://opentdb.com/api.php?" + paramString;
+
+    $.ajax({
+        //calls search
+        url: queryURL,
+        Method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        if (response.response_code === 4) {
+            resetToken();
         }
+        let resArr = response.results;
+        for (let i = 0; i < resArr.length; i++) {
+            
+                let title = resArr[i].question;
+                let correct = resArr[i].correct_answer;
+                let options = resArr[i].incorrect_answers;
+                let q = new Question(title, correct, options);
+                quizArray.push(q);
+            
+        }
+        //establishes the current question
+        currentQ = quizArray[quizIdx];
+        correctId = currentQ.options.length - 1;
+        displayQuestion(currentQ);
+
+    })
+
+
+}
+
+//only go to next question if there is one, or go to final screen
+function nextQ() {
+
+    quizIdx++;
+    if (quizIdx == quizArray.length) {
+        setTimeout(function () { displayOver(); }, 3000);
+    } else {
+        currentQ = quizArray[quizIdx];
+        correctId = currentQ.options.length - 1;
+        setTimeout(function () { displayQuestion(currentQ); }, 3000);
     }
-    console.log(indexArray);
-    //establishes the current question
-    currentQ = quizArray[indexArray[i]];
-    displayQuestion(currentQ);
 
 }
 
@@ -171,16 +119,23 @@ function displayQuestion(currentQ) {
 
     //clears and adds question title
     $("#questionTitle").text("");
-    $("#questionTitle").text(currentQ.title);
+    $("#questionTitle").html(currentQ.title);
 
     //clears options
     $("#optionsBox").empty();
 
+    //shuffles options
+    const shuffle = new Set([])
+    let opts = currentQ.options.length;
+    
+    while (shuffle.size < opts){
+        shuffle.add(Math.floor(Math.random() * opts));
+      };
+
     //adds question options
-    $("#optionsBox").append("<h4 class='choice' id='a'>" + currentQ.options.a + "</h4>");
-    $("#optionsBox").append("<h4 class='choice' id='b'>" + currentQ.options.b + "</h4>");
-    $("#optionsBox").append("<h4 class='choice' id='c'>" + currentQ.options.c + "</h4");
-    $("#optionsBox").append("<h4 class='choice' id='d'>" + currentQ.options.d + "</h4>");
+    for (const i of shuffle) {
+        $("#optionsBox").append(`<h4 class='choice' id='${i}'>${currentQ.options[i]}</h4>`);
+    }
 
 }
 
@@ -197,14 +152,7 @@ function correctDisplay() {
     //adds to correct count
     correctNum++;
 
-    //only go to next question if there is one, or go to final screen
-    i++;
-    if (i == indexArray.length) {
-        setTimeout(function () { displayOver(); }, 3000);
-    } else {
-        currentQ = quizArray[indexArray[i]];
-        setTimeout(function () { displayQuestion(currentQ); }, 3000);
-    }
+    nextQ();
 }
 
 //displays wrong answer dialog
@@ -215,24 +163,15 @@ function wrongDisplay() {
     clockRunning = false;
 
     //grabs and displays correct answer
-    let correctA = $("#" + currentQ.correct).text();
+    let correctA = $("#" + correctId).text();
     $("#questionTitle").text("The correct answer was: " + correctA);
     //highlights correct answer
-    $("#" + currentQ.correct).css("background-color", "#04aa04");
+    $("#" + correctId).css("background-color", "#04aa04");
 
     //adds to wrong count
     wrongNum++;
 
-    //only go to next question if there is one, or go to final screen
-    i++;
-    if (i == indexArray.length) {
-        setTimeout(function () { displayOver(); }, 3000);
-    } else {
-        setTimeout(function () {
-            currentQ = quizArray[indexArray[i]];
-            displayQuestion(currentQ);
-        }, 3000);
-    }
+    nextQ();
 }
 
 //displays final screen
@@ -258,17 +197,26 @@ function displayOver() {
     //shows start button
     $("#startBtn").show()
 
-    //resets i
-    i = 0;
+    //resets quizIdx
+    quizIdx = 0;
 
 }
 
 //waits for page to load
 $(document).ready(function () {
 
+
+
     //begins quiz on button click
     $("#startBtn").on("click", function () {
-        generateQuiz();
+
+        //resets correct and wrong count
+        correctNum = 0;
+        wrongNum = 0;
+
+        //getToken();
+        getTrivia();
+
         $("#messageBox").empty();
         $("#startBtn").hide();
     })
@@ -279,7 +227,7 @@ $(document).ready(function () {
         //only runs comparison if question not answered yet
         if (clockRunning === true) {
             //compares option id to correct answer
-            if ($(this).attr("id") === currentQ.correct) {
+            if ($(this).attr("id") === correctId.toString()) {
                 correctDisplay();
                 $(this).css("background-color", "#04aa04");
             } else {
