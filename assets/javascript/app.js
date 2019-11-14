@@ -217,6 +217,7 @@ $(document).ready(function () {
         //resets correct and wrong count
         correctNum = 0;
         wrongNum = 0;
+        quizArray = [];
 
         getTrivia();
 
