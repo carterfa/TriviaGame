@@ -9,9 +9,9 @@ let timer = 20;
 let intervalId;
 let clockRunning = true;
 let token = "";
-let quizDif = "easy";
 let correctId = "";
 
+//question constructor
 function Question(title, correct, options) {
     this.title = title;
     this.correct = correct;
@@ -20,6 +20,7 @@ function Question(title, correct, options) {
 
 }
 
+//gets token from trivia database
 function getToken() {
 
     $.ajax({
@@ -27,10 +28,10 @@ function getToken() {
         Method: "GET"
     }).then(function (response) {
         token = response.token;
-        console.log(token);
     })
 }
 
+//resets token
 function resetToken(token) {
 
     $.ajax({
@@ -41,12 +42,12 @@ function resetToken(token) {
     })
 }
 
+//API request
 function getTrivia() {
     //object containing parameters 
     const QueryParams = {
         "amount": quizNum,
         "category": 15,
-        "difficulty": quizDif,
         "token": token
     };
 
@@ -59,10 +60,12 @@ function getTrivia() {
         url: queryURL,
         Method: "GET"
     }).then(function (response) {
-        console.log(response);
+        //console.log(response);
         if (response.response_code === 4) {
             resetToken();
         }
+
+        //builds array of questions
         let resArr = response.results;
         for (let i = 0; i < resArr.length; i++) {
             
@@ -73,6 +76,7 @@ function getTrivia() {
                 quizArray.push(q);
             
         }
+
         //establishes the current question
         currentQ = quizArray[quizIdx];
         correctId = currentQ.options.length - 1;
@@ -205,7 +209,7 @@ function displayOver() {
 //waits for page to load
 $(document).ready(function () {
 
-
+    getToken();
 
     //begins quiz on button click
     $("#startBtn").on("click", function () {
@@ -214,7 +218,6 @@ $(document).ready(function () {
         correctNum = 0;
         wrongNum = 0;
 
-        //getToken();
         getTrivia();
 
         $("#messageBox").empty();
