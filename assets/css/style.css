@@ -1,9 +1,13 @@
 html {
     background: url("../images/TriviaGameBackground.jpg");
     background-repeat: no-repeat;
-    background-position: left bottom;
+    background-position: bottom;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
-    background-attachment: fixed;
+    height: 100%;
 }
 
 body {
