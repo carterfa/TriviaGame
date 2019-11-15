@@ -7,7 +7,7 @@ Open Trivia Database was used to generate questions.
 
 This game was created during Georgia Tech's Coding Boot Camp program in 2019.
 
-[Given Instructions:](homework-instructions.md)
+[Given Instructions](homework-instructions.md)
 
 ## How to Play
 
