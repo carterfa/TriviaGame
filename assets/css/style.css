@@ -1,97 +1,99 @@
 html {
-    background: url("../images/TriviaGameBackground.jpg");
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-attachment: scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    height: 100%;
+  background: url("../images/TriviaGameBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-attachment: scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
 }
 
 body {
-    background-color: transparent;
-    font-family: "Lucida Console", Monaco, monospace;
+  background-color: transparent;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
-#titletext, #countdown{
-    text-shadow: black 2px 2px;
+#titletext,
+#countdown {
+  text-shadow: black 2px 2px;
 }
 
 h1 {
-    margin: 1em
+  margin: 1em;
 }
 
 /* Highlights user selection */
 
 .choice:hover {
-    background-color: #572304;
+  background-color: #572304;
+  cursor: pointer;
 }
 
 #quizBox {
-    padding: 1em;
-    background-color: #cc4e0c;
-    color: #ffc8c3;
-    margin: 1em auto 1em auto;
-    width: 80vw;
-    border-bottom: solid 2px #572304;
-    border-right: solid 2px #572304;
-    border-top: solid 2px whitesmoke;
-    border-left: solid 2px whitesmoke;
+  padding: 1em;
+  background-color: #cc4e0c;
+  color: #ffc8c3;
+  margin: 1em auto 1em auto;
+  width: 80vw;
+  border-bottom: solid 2px #572304;
+  border-right: solid 2px #572304;
+  border-top: solid 2px whitesmoke;
+  border-left: solid 2px whitesmoke;
 }
 
 div {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #startBtn {
-    background-color: darkgray;
-    color: crimson;
-    border-radius: 10px;
-    padding: 0em 2em 0em 2em;
-    text-align: center;
+  background-color: darkgray;
+  color: crimson;
+  border-radius: 10px;
+  padding: 0em 2em 0em 2em;
+  text-align: center;
 }
 
-#startBtn h3{
-    margin: 0em;
+#startBtn h3 {
+  margin: 0em;
 }
 
 header {
-    text-align: center;
-    color: whitesmoke;
-    font-weight: bold;
+  text-align: center;
+  color: whitesmoke;
+  font-weight: bold;
 }
 
 #countdown {
-    text-align: center;
-    color: whitesmoke;
-    font-weight: bold;
+  text-align: center;
+  color: whitesmoke;
+  font-weight: bold;
 }
 
 #optionsBox {
-    margin: 1em;
+  margin: 1em;
 }
 
 /* adjusts for mobile */
 
 @media only screen and (max-width: 600px) {
-    #quizBox {
-        margin: .1em auto .1em auto;
-        width: 90vw;
-    }
-    .choice {
-        border: solid 2px #572304;
-    }
+  #quizBox {
+    margin: 0.1em auto 0.1em auto;
+    width: 90vw;
+  }
+  .choice {
+    border: solid 2px #572304;
+  }
 
-    h1 {
-        margin: .1em;
-    }
-    
-    header h1 {
-        font-size: 1.75em;
-        text-align: center;
-    }
+  h1 {
+    margin: 0.1em;
+  }
+
+  header h1 {
+    font-size: 1.75em;
+    text-align: center;
+  }
 }
