@@ -1,4 +1,4 @@
-### Trivia Game
+## Trivia Game
 
 ### Overview
 
