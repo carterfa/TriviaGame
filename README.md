@@ -4,7 +4,9 @@
 
 ### Overview
 
-This game was built using HTML, CSS, and JavaScript.  Open Trivia Database was used to generate questions. 
+This game was built using HTML, CSS, and JavaScript.  
+
+Open Trivia Database was used to generate questions. 
 [API Documentation:](https://opentdb.com/api_config.php)
 
 ### How to Play
