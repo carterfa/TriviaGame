@@ -2,6 +2,8 @@
 
 ### Overview
 
+![Screenshot](./screenshots/videogametrivia.jpg)
+
 Open Trivia Database was used to generate questions. 
 [API Documentation:](https://opentdb.com/api_config.php)
 
